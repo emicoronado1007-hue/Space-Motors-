@@ -16,5 +16,3 @@ services:
         value: /data
       - key: UPLOADS_DIR
         value: /data/uploads
-    
-      sizeGB: 1
