@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: space-motors
+    name: space-motors-app
     env: node
     buildCommand: npm install && npm run seed
     startCommand: npm start
@@ -11,8 +11,4 @@ services:
       - key: ADMIN_PASS
         value: BrendaConor2007
       - key: WHATSAPP_PHONE
-        value: 525536343619
-      - key: DATA_DIR
-        value: /data
-      - key: UPLOADS_DIR
-        value: /data/uploads
+        value: 52556343619
