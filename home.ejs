@@ -1,0 +1,17 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="/public/css/styles.css"><title>Home</title></head><body>
+<%- include('../partials/header') %>
+<div style="max-width:1100px;margin:0 auto;padding:16px">
+  <h1>Autos seleccionados</h1>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
+    <% recent.forEach(c=>{ %>
+      <a href="/auto/<%= c.slug %>" style="display:block;border:1px dashed #ccc;padding:12px;border-radius:12px">
+        <div style="height:140px;background:#f5f5f5;border:1px dashed #ddd;border-radius:8px"></div>
+        <h3 style="margin:8px 0 4px"><%= c.title %></h3>
+        <div><strong><%= formatMoney(c.price) %></strong></div>
+        <small style="color:#666"><%= c.year %> · <%= c.mileage.toLocaleString() %> km · <%= c.city %></small>
+      </a>
+    <% }) %>
+  </div>
+</div>
+<%- include('../partials/footer') %>
+</body></html>
