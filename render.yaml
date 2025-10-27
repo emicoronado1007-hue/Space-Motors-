@@ -11,4 +11,4 @@ services:
       - key: ADMIN_PASS
         value: BrendaConor2007
       - key: WHATSAPP_PHONE
-        value: 52556343619
+        value: 525536343619
