@@ -6,15 +6,15 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Guardar DB dentro del proyecto (Render no permite usar "/data")
+// Guardar la base de datos dentro del proyecto (compatible con Render)
 const DATA_DIR = process.env.DATA_DIR || path.join(process.cwd(), 'data');
 fs.mkdirSync(DATA_DIR, { recursive: true });
 
-// Ruta del archivo de base
+// Ruta del archivo de base de datos
 const DB_FILE = path.join(DATA_DIR, 'data.db');
 const db = new Database(DB_FILE);
 
-// Crear tablas (idénticas a server.js)
+// Crear tablas (idénticas a las del server.js)
 db.exec(`
   PRAGMA foreign_keys = ON;
 
@@ -45,26 +45,52 @@ db.exec(`
 
   CREATE INDEX IF NOT EXISTS idx_images_car_id ON images(car_id);
 
-  DELETE FROM images; DELETE FROM cars; VACUUM;
+  DELETE FROM images;
+  DELETE FROM cars;
+  VACUUM;
 `);
 
+// Insertar un auto de ejemplo (Mazda 3)
 const insertCar = db.prepare(`
-  INSERT INTO cars (title,price,year,mileage,city,description,vin,owners,repuve_status,insurance_status,title_type,notes_history,slug,is_sold)
-  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?, ?, 0)
+  INSERT INTO cars (
+    title, price, year, mileage, city, description, vin, owners,
+    repuve_status, insurance_status, title_type, notes_history, slug, is_sold
+  )
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `);
-const insertImg = db.prepare(`INSERT INTO images (car_id,filename) VALUES (?,?)`);
 
+const insertImg = db.prepare(`INSERT INTO images (car_id, filename) VALUES (?, ?)`);
+
+// Datos del Mazda 3
 const title = 'Mazda 3 i Touring';
-const slug = `${title}-${Date.now()}`.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+const slug = `${title}-${Date.now()}`.toLowerCase()
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/(^-|-$)/g, '');
 
-const info = insertCar.run(title, 158000, 2017, 78500, 'Ciudad de Mexico',
-  'Muy cuidado, servicios al día', 'JM1BN123456789000', 1, 'Limpio', 'Normal', 'Factura original', 'Sin observaciones', slug, 0);
+const info = insertCar.run(
+  title,                   // title
+  158000,                  // price
+  2017,                    // year
+  78500,                   // mileage
+  'Ciudad de Mexico',      // city
+  'Muy cuidado, servicios al día', // description
+  'JM1BN123456789000',     // vin
+  1,                       // owners
+  'Limpio',                // repuve_status
+  'Normal',                // insurance_status
+  'Factura original',      // title_type
+  'Sin observaciones',     // notes_history
+  slug,                    // slug
+  0                        // is_sold
+);
+
 const carId = info.lastInsertRowid;
 
-// Si ya subiste fotos reales a public/images/mazda3/…
+// Insertar imágenes de ejemplo (asegúrate de tenerlas en /public/images/mazda3/)
 insertImg.run(carId, 'mazda3/1.jpg');
 insertImg.run(carId, 'mazda3/2.jpg');
 insertImg.run(carId, 'mazda3/3.jpg');
 
 console.log('✅ Base de datos creada correctamente en:', DB_FILE);
 console.log('✅ Mazda 3 insertado correctamente con ID:', carId);
+console.log('Space Motors seed final ejecutado con éxito 🚀');
