@@ -9,6 +9,6 @@ services:
       - key: ADMIN_USER
         value: admin
       - key: ADMIN_PASS
-        value: BrendaConor2007
+        value: password
       - key: WHATSAPP_PHONE
-        value: 525536343619
+        value: 52536343619
