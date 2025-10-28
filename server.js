@@ -223,7 +223,7 @@ app.post('/admin/nuevo', auth, async (req, res) => {
     if (req.files && req.files.photos) {
       const files = Array.isArray(req.files.photos) ? req.files.photos : [req.files.photos];
       for (const f of files.slice(0, 10)) {
-        const safe = `${Date.now()}-${f.name.replace(/[^a-zA-Z0-9.\-_/g,'').replace(/\s+/g,'_')}`;
+        const safe =`${Date.now()}-${f.name.replace(/[^a-zA-Z0-9.\-_/g, '').replace(/\s+/g, '_')}`;
         const dest = path.join(UPLOADS_DIR, safe);
         await f.mv(dest);
         run(`INSERT INTO images (car_id, filename) VALUES (?,?)`, [carId, `/uploads/${safe}`]);
