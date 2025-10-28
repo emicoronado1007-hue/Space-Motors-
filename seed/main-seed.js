@@ -43,3 +43,42 @@ CREATE TABLE IF NOT EXISTS images (
 `);
 
 console.log('✅ Base de datos creada correctamente en:', DB_FILE);
+
+// 🚗 Insertar auto de ejemplo si la tabla está vacía
+const count = db.prepare(`SELECT COUNT(*) AS total FROM cars`).get().total;
+if (count === 0) {
+  const insertCar = db.prepare(`
+    INSERT INTO cars (title, price, year, mileage, city, description, vin, owners, repuve_status, insurance_status, title_type, notes_history, slug, is_sold)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  const carTitle = 'Mazda 3 i Touring';
+  const carSlug = slugify(carTitle + '-' + Date.now());
+
+  const info = insertCar.run(
+    carTitle,
+    158000,
+    2017,
+    78500,
+    'Ciudad de Mexico',
+    'Ejemplo de auto en inventario inicial',
+    'VIN1234567890',
+    1,
+    'Limpio',
+    'Normal',
+    'Factura original',
+    null,
+    carSlug,
+    0
+  );
+
+  const carId = info.lastInsertRowid;
+  const insertImg = db.prepare(`INSERT INTO images (car_id, filename) VALUES (?, ?)`);
+
+  insertImg.run(carId, '/images/mazda3/1.jpg');
+  insertImg.run(carId, '/images/mazda3/2.jpg');
+  insertImg.run(carId, '/images/mazda3/3.jpg');
+
+  console.log('🚘 Mazda 3 insertado correctamente con ID:', carId);
+}
