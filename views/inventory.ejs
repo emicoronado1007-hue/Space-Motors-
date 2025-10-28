@@ -1,27 +1,25 @@
-<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="/public/css/styles.css"><title>Inventario</title></head><body>
-<%- include('../partials/header') %>
-<div style="max-width:1100px;margin:0 auto;padding:16px">
+<!doctype html><html><head><meta charset="utf-8"><title>Inventario • Space Motors</title></head><body>
+<%- include('header') %>
+<div class="container" style="max-width:1100px;margin:0 auto;padding:16px">
   <h1>Inventario</h1>
-  <form method="get" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:10px 0 20px">
-    <input name="q" placeholder="Buscar..." value="<%= filters.term||'' %>">
-    <select name="ciudad"><option value="">Ciudad</option><option <%= filters.ciudad==='Ciudad de Mexico'?'selected':'' %>>Ciudad de Mexico</option><option <%= filters.ciudad==='Estado de Mexico'?'selected':'' %>>Estado de Mexico</option></select>
-    <input name="min" type="number" placeholder="Precio mín" value="<%= filters.min||'' %>">
-    <input name="max" type="number" placeholder="Precio máx" value="<%= filters.max||'' %>">
-    <input name="year" type="number" placeholder="Año desde" value="<%= filters.year||'' %>">
-    <select name="repuve"><option value="">REPUVE</option><option <%= filters.repuve==='Limpio'?'selected':'' %>>Limpio</option><option <%= filters.repuve==='Con reporte'?'selected':'' %>>Con reporte</option><option <%= filters.repuve==='No verificado'?'selected':'' %>>No verificado</option></select>
-    <select name="insurance"><option value="">Seguro</option><option <%= filters.insurance==='Normal'?'selected':'' %>>Normal</option><option <%= filters.insurance==='Perdida total'?'selected':'' %>>Perdida total</option><option <%= filters.insurance==='Rescatado'?'selected':'' %>>Rescatado</option><option <%= filters.insurance==='Aseguradora'?'selected':'' %>>Aseguradora</option></select>
-    <button>Filtrar</button> <a href="/inventario">Limpiar</a>
-  </form>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
-    <% cars.forEach(c=>{ %>
-      <a href="/auto/<%= c.slug %>" style="display:block;border:1px dashed #ccc;padding:12px;border-radius:12px">
-        <div style="height:140px;background:#f5f5f5;border:1px dashed #ddd;border-radius:8px"></div>
-        <h3 style="margin:8px 0 4px"><%= c.title %></h3>
-        <div><strong><%= formatMoney(c.price) %></strong></div>
-        <small style="color:#666"><%= c.year %> · <%= c.mileage.toLocaleString() %> km · <%= c.city %></small>
+  <div class="grid">
+    <% cars.forEach(c => { %>
+      <a class="card" href="/auto/<%= c.slug %>">
+        <div class="thumb">
+          <% if(c.cover){ %>
+            <img src="/images/<%= c.cover %>" alt="<%= c.title %>">
+          <% } else { %>
+            <div class="noimg">Sin foto</div>
+          <% } %>
+        </div>
+        <div class="meta">
+          <div class="title"><%= c.title %></div>
+          <div class="price"><%= formatMoney(c.price) %></div>
+          <div class="sub"><%= c.year %> • <%= c.mileage.toLocaleString('es-MX') %> km • <%= c.city %></div>
+        </div>
       </a>
     <% }) %>
   </div>
 </div>
-<%- include('../partials/footer') %>
+<%- include('footer') %>
 </body></html>
