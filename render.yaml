@@ -3,7 +3,7 @@ services:
     name: space-motors-app
     env: node
     buildCommand: npm install && npm run seed
-    startCommand: npm start
+    startCommand: node server.js
     plan: free
     envVars:
       - key: ADMIN_USER
