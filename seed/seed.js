@@ -3,7 +3,6 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 
-// 📍 Obtener ruta absoluta del archivo actual
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -11,7 +10,6 @@ const __dirname = path.dirname(__filename);
 const dataDir = process.env.DATA_DIR || path.join(process.cwd(), 'data');
 fs.mkdirSync(dataDir, { recursive: true });
 
-// 🧠 Crear conexión a la base de datos
 const db = new Database(path.join(dataDir, 'data.db'));
 
 // 🧱 Crear tablas si no existen
