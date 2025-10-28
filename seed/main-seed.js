@@ -6,64 +6,40 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ✅ Guardar la base de datos dentro del proyecto (Render no permite usar "/data")
-const dataDir = process.env.DATA_DIR || path.join(process.cwd(), 'data');
-fs.mkdirSync(dataDir, { recursive: true });
+// ✅ Guardar DB dentro del proyecto (compatible con Render)
+const DATA_DIR = process.env.DATA_DIR || path.join(process.cwd(), 'data');
+fs.mkdirSync(DATA_DIR, { recursive: true });
 
-const db = new Database(path.join(dataDir, 'data.db'));
+// 📄 Ruta de archivo de base de datos
+const DB_FILE = path.join(DATA_DIR, 'data.db');
+const db = new Database(DB_FILE);
 
-// 🧱 Crear tablas si no existen
+// 🧩 Crear tablas con todas las columnas nuevas
 db.exec(`
-  PRAGMA foreign_keys = ON;
+CREATE TABLE IF NOT EXISTS cars (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  price INTEGER NOT NULL,
+  year INTEGER NOT NULL,
+  mileage INTEGER NOT NULL,
+  city TEXT NOT NULL CHECK (city IN ('Ciudad de Mexico','Estado de Mexico')),
+  description TEXT,
+  vin TEXT,
+  owners INTEGER,
+  repuve_status TEXT CHECK (repuve_status IN ('Limpio','Con reporte','No verificado')) DEFAULT 'No verificado',
+  insurance_status TEXT CHECK (insurance_status IN ('Normal','Perdida total','Rescatado','Aseguradora')) DEFAULT 'Normal',
+  title_type TEXT CHECK (title_type IN ('Factura original','Refacturado','Aseguradora')) DEFAULT 'Factura original',
+  notes_history TEXT,
+  slug TEXT UNIQUE NOT NULL,
+  is_sold INTEGER NOT NULL DEFAULT 0,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 
-  CREATE TABLE IF NOT EXISTS cars (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT,
-    price INTEGER,
-    year INTEGER,
-    mileage INTEGER,
-    city TEXT,
-    slug TEXT UNIQUE
-  );
-
-  CREATE TABLE IF NOT EXISTS images (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    car_id INTEGER NOT NULL,
-    url TEXT NOT NULL,
-    alt TEXT,
-    is_cover INTEGER DEFAULT 0,
-    sort_order INTEGER DEFAULT 0,
-    FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE
-  );
-
-  CREATE INDEX IF NOT EXISTS idx_images_car_id ON images(car_id);
+CREATE TABLE IF NOT EXISTS images (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  car_id INTEGER NOT NULL REFERENCES cars(id) ON DELETE CASCADE,
+  filename TEXT NOT NULL
+);
 `);
 
-// 🧹 Limpiar tablas
-db.exec('DELETE FROM images; DELETE FROM cars; VACUUM;');
-
-// 🚗 Insertar un coche de ejemplo
-const insertCar = db.prepare(
-  'INSERT INTO cars (title, price, year, mileage, city, slug) VALUES (?, ?, ?, ?, ?, ?)'
-);
-const insertImg = db.prepare(
-  'INSERT INTO images (car_id, url, alt, is_cover, sort_order) VALUES (?, ?, ?, ?, ?)'
-);
-
-// Crear slug
-const slugify = s =>
-  s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') + '-' + Date.now();
-
-// Insertar datos
-const carTitle = 'Mazda 3 i Touring';
-const carSlug = slugify(carTitle);
-const info = insertCar.run(carTitle, 158000, 2017, 78500, 'Ciudad de México', carSlug);
-const carId = info.lastInsertRowid;
-
-// 🖼️ Insertar imágenes
-insertImg.run(carId, '/images/mazda3/1.jpg', 'Mazda 3 frente', 1, 0);
-insertImg.run(carId, '/images/mazda3/2.jpg', 'Mazda 3 interior', 0, 1);
-insertImg.run(carId, '/images/mazda3/3.jpg', 'Mazda 3 tablero', 0, 2);
-
-// ✅ Mensaje de confirmación
-console.log('Seed ejecutado correctamente ✅ con DATA_DIR:', dataDir);
+console.log('✅ Base de datos creada correctamente en:', DB_FILE);
