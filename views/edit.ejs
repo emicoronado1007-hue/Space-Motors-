@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Editar auto — <%= car.title %> | Space Motors</title>
+  <link rel="stylesheet" href="/public/styles.css">
+</head>
+<body>
+  <%- include('header') %>
+
+  <main class="container" style="padding:36px 0;max-width:980px;">
+    <a href="/admin" class="btn btn-outline">← Volver al panel</a>
+    <h1 style="margin-top:12px;">Editar auto</h1>
+    <p style="opacity:.8;margin-bottom:20px;">ID: <%= car.id %> — Slug: <code><%= car.slug %></code></p>
+
+    <!-- Form principal: actualiza datos y puede subir MÁS fotos -->
+    <form action="/admin/editar/<%= car.id %>?_method=PUT" method="POST" enctype="multipart/form-data" style="display:grid;gap:14px;">
+      <label>Título
+        <input type="text" name="title" value="<%= car.title %>" required>
+      </label>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
+        <label>Precio (MXN)
+          <input type="number" name="price" value="<%= car.price %>" required>
+        </label>
+        <label>Año
+          <input type="number" name="year" value="<%= car.year %>" required>
+        </label>
+        <label>Kilometraje
+          <input type="number" name="mileage" value="<%= car.mileage %>" required>
+        </label>
+      </div>
+
+      <label>Ciudad
+        <select name="city" required>
+          <option value="Ciudad de Mexico" <%= car.city==='Ciudad de Mexico'?'selected':'' %>>Ciudad de México</option>
+          <option value="Estado de Mexico" <%= car.city==='Estado de Mexico'?'selected':'' %>>Estado de México</option>
+        </select>
+      </label>
+
+      <label>Descripción
+        <textarea name="description" rows="4"><%= car.description || '' %></textarea>
+      </label>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">
+        <label>VIN <input type="text" name="vin" value="<%= car.vin || '' %>"></label>
+        <label>Propietarios <input type="text" name="owners" value="<%= car.owners || '' %>"></label>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
+        <label>Repuve
+          <select name="repuve_status">
+            <option <%= car.repuve_status==='Limpio'?'selected':'' %>>Limpio</option>
+            <option <%= car.repuve_status==='Con reporte'?'selected':'' %>>Con reporte</option>
+            <option <%= car.repuve_status==='No verificado'?'selected':'' %>>No verificado</option>
+          </select>
+        </label>
+        <label>Seguro
+          <select name="insurance_status">
+            <option <%= car.insurance_status==='Normal'?'selected':'' %>>Normal</option>
+            <option <%= car.insurance_status==='Perdida total'?'selected':'' %>>Pérdida total</option>
+            <option <%= car.insurance_status==='Rescatado'?'selected':'' %>>Rescatado</option>
+            <option <%= car.insurance_status==='Aseguradora'?'selected':'' %>>Aseguradora</option>
+          </select>
+        </label>
+        <label>Tipo de factura
+          <select name="title_type">
+            <option <%= car.title_type==='Factura original'?'selected':'' %>>Factura original</option>
+            <option <%= car.title_type==='Refacturado'?'selected':'' %>>Refacturado</option>
+          </select>
+        </label>
+      </div>
+
+      <label>Notas / Historial
+        <textarea name="notes_history" rows="3"><%= car.notes_history || '' %></textarea>
+      </label>
+
+      <label style="display:flex;align-items:center;gap:8px;">
+        <input type="checkbox" name="is_sold" value="1" <%= car.is_sold ? 'checked' : '' %> >
+        Marcar como vendido
+      </label>
+
+      <hr style="border-color:#333">
+
+      <h2>Galería</h2>
+      <% if (images.length === 0) { %>
+        <p style="opacity:.8;">Aún no hay fotos.</p>
+      <% } %>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
+        <% images.forEach(img => { %>
+          <figure class="card" style="padding:8px;">
+            <img src="/images/<%= img.filename %>" alt="" style="width:100%;height:130px;object-fit:cover;border-radius:6px;">
+            <form action="/admin/imagen/<%= img.id %>?_method=DELETE" method="POST" style="margin-top:8px;text-align:center;">
+              <button class="btn btn-outline" type="submit">Borrar foto</button>
+            </form>
+          </figure>
+        <% }) %>
+      </div>
+
+      <label style="margin-top:8px;">Agregar más fotos
+        <input type="file" name="photos" multiple accept="image/*">
+      </label>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
+        <button class="btn" type="submit">Guardar cambios</button>
+        <a class="btn btn-outline" href="/admin">Cancelar</a>
+      </div>
+    </form>
+  </main>
+
+  <%- include('footer') %>
+</body>
+</html>
