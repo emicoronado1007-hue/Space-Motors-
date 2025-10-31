@@ -92,12 +92,13 @@ const formatMoney = n => n.toLocaleString('es-MX', { style: 'currency', currency
 app.get('/', (req, res) => {
   const recent = all(`
     SELECT c.id, c.title, c.price, c.year, c.mileage, c.city, c.slug,
-    (SELECT filename FROM images WHERE car_id=c.id ORDER BY id ASC LIMIT 1) AS image
-    FROM cars ORDER BY created_at DESC LIMIT 6
+           (SELECT filename FROM images WHERE car_id = c.id ORDER BY id ASC LIMIT 1) AS image
+    FROM cars AS c
+    ORDER BY c.created_at DESC
+    LIMIT 6
   `);
   res.render('home', { recent, formatMoney });
 });
-
 // 🚘 Inventario
 app.get('/inventario', (req, res) => {
   const cars = all(`
