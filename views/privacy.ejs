@@ -1,1 +1,55 @@
-<!doctype html><html><head><meta charset='utf-8'><title>Privacidad</title><link rel='stylesheet' href='/public/css/styles.css'></head><body><%- include('../partials/header') %><div style='max-width:1100px;margin:0 auto;padding:16px'><h1>Aviso de privacidad</h1><p>No compartimos tus datos. Mensajes directos por WhatsApp.</p></div><%- include('../partials/footer') %></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Aviso de Privacidad — Space Motors</title>
+</head>
+<body>
+  <%- include('header') %>
+
+  <main class="container" style="padding:32px 0;">
+    <h1>Aviso de Privacidad</h1>
+    <p>En <strong>Space Motors</strong> protegemos tus datos personales y los usamos únicamente para brindarte nuestros servicios de compraventa de autos.</p>
+
+    <h2>Datos que podemos recopilar</h2>
+    <ul>
+      <li>Identificación y contacto: nombre, teléfono, correo.</li>
+      <li>Información de operación: interés en vehículos, citas, facturación.</li>
+      <li>Archivos enviados voluntariamente: fotos o documentos para valoración.</li>
+    </ul>
+
+    <h2>Finalidades</h2>
+    <ul>
+      <li>Responder consultas y enviar información de vehículos.</li>
+      <li>Agendar y confirmar visitas o pruebas de manejo.</li>
+      <li>Gestión de cotizaciones, contratos y facturación.</li>
+      <li>Prevención de fraude y cumplimiento legal.</li>
+      <li>Comunicación comercial sobre inventario (puedes darte de baja cuando quieras).</li>
+    </ul>
+
+    <h2>Con quién compartimos datos</h2>
+    <p>No vendemos tus datos. Solo podremos compartirlos con proveedores que nos ayudan a operar (banco, servicios de hospedaje, mensajería) o autoridades que lo requieran conforme a la ley, bajo acuerdos de confidencialidad.</p>
+
+    <h2>Conservación y seguridad</h2>
+    <p>Conservamos la información el tiempo necesario para las finalidades descritas y aplicamos medidas administrativas y técnicas para protegerla.</p>
+
+    <h2>Tus derechos (ARCO)</h2>
+    <p>Puedes <strong>acceder</strong>, <strong>rectificar</strong> o <strong>eliminar</strong> tus datos, así como <strong>oponerte</strong> o <strong>revocar</strong> tu consentimiento. Escríbenos para atender tu solicitud.</p>
+
+    <h2>Contacto</h2>
+    <ul>
+      <li>WhatsApp: <a href="https://wa.me/5536343619" target="_blank" rel="noopener">5536343619</a></li>
+      <li>Email: <a href="mailto:contacto@spacemotors.mx">contacto@spacemotors.mx</a> (ejemplo, ajusta si usas otro)</li>
+    </ul>
+
+    <p style="opacity:.8;margin-top:8px;">Última actualización: <%= new Date().toLocaleDateString('es-MX') %></p>
+
+    <div style="margin:32px 0;">
+      <a class="btn" href="/inventario">Ver inventario</a>
+    </div>
+  </main>
+
+  <%- include('footer') %>
+</body>
+</html>
