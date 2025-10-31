@@ -1,7 +1,53 @@
-<!doctype html><html><head><meta charset="utf-8"><title>404</title></head><body>
-<%- include('header') %>
-<div class="container" style="max-width:900px;margin:40px auto">
-  <h1>404</h1><p>Página no encontrada.</p>
-</div>
-<%- include('footer') %>
-</body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>404 — Página no encontrada</title>
+  <link rel="stylesheet" href="/public/styles.css">
+  <style>
+    .notfound {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 0.75rem;
+    }
+    .notfound h1 {
+      font-size: 3rem;
+      margin: 0;
+    }
+    .notfound p {
+      opacity: 0.8;
+      margin: 0;
+    }
+    .notfound a {
+      margin-top: 1rem;
+      display: inline-block;
+      color: #d4af37;
+      text-decoration: none;
+      border: 1px solid #d4af37;
+      padding: 8px 16px;
+      border-radius: 5px;
+      transition: 0.2s;
+    }
+    .notfound a:hover {
+      background: #d4af37;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <%- include('header') %>
+
+  <main class="container notfound">
+    <h1>404</h1>
+    <p>Página no encontrada.</p>
+    <a href="/">Volver al inicio</a>
+  </main>
+
+  <%- include('footer') %>
+</body>
+</html>
