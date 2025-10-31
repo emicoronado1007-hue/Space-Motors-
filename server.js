@@ -119,6 +119,35 @@ app.get(['/como-comprar', '/howto', '/how-to'], (req, res) => {
 app.get(['/privacidad', '/privacy', '/aviso-de-privacidad'], (req, res) => {
   res.render('privacy');
 });
+app.get(['/privacidad', '/privacy', '/aviso-de-privacidad'], (req, res) => {
+  res.render('privacy');
+});
+
+// 🔐 Protege todas las rutas /admin con Basic Auth
+app.use('/admin', auth);
+
+// 📋 Dashboard principal
+app.get('/admin', (req, res) => {
+  const cars = all(`
+    SELECT id, title, price, year, mileage, is_sold, slug
+    FROM cars
+    ORDER BY created_at DESC
+  `);
+  res.render('dashboard', { cars, formatMoney });
+});
+
+// ➕ Formulario para crear auto
+app.get('/admin/nuevo', (req, res) => {
+  res.render('new'); // Vista new.ejs
+});
+
+// ✏️ Editar auto
+app.get('/admin/editar/:id', (req, res) => {
+  const car = get(`SELECT * FROM cars WHERE id = ?`, [req.params.id]);
+  const images = all(`SELECT id, filename FROM images WHERE car_id = ? ORDER BY id`, [req.params.id]);
+  if (!car) return res.status(404).render('404');
+  res.render('edit', { car, images, formatMoney });
+});
 
 // 🚫 Página no encontrada
 app.use((req, res) => {
