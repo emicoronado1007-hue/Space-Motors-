@@ -1,1 +1,73 @@
-<!doctype html><html><head><meta charset='utf-8'><title>Cómo comprar</title><link rel='stylesheet' href='/public/css/styles.css'></head><body><%- include('../partials/header') %><div style='max-width:1100px;margin:0 auto;padding:16px'><h1>Cómo comprar</h1><ol><li>Elige un auto</li><li>Agenda visita por WhatsApp</li><li>Revisión y prueba</li><li>Pago y entrega</li></ol></div><%- include('../partials/footer') %></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>¿Cómo comprar? — Space Motors</title>
+  <!-- styles.css ya se incluye desde header.ejs -->
+</head>
+<body>
+  <%- include('header') %>
+
+  <main class="container">
+    <section class="hero" style="padding:48px 0;">
+      <h1>¿Cómo comprar tu auto en <span class="brand">Space<span>Motors</span></span>?</h1>
+      <p class="lead">Proceso claro, rápido y seguro. Te acompañamos en cada paso.</p>
+      <div style="margin-top:16px;">
+        <a class="btn" href="https://wa.me/5536343619" target="_blank" rel="noopener">Contáctanos por WhatsApp</a>
+      </div>
+    </section>
+
+    <section style="display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
+      <article class="card">
+        <h3>1. Elige tu auto</h3>
+        <p>Explora el <a href="/inventario">inventario</a> y revisa fotos, kilometraje, precio y condiciones.</p>
+      </article>
+      <article class="card">
+        <h3>2. Aclara tus dudas</h3>
+        <p>Te mandamos ficha completa, más fotos/video y reporte (repuve, póliza, tenencias).</p>
+      </article>
+      <article class="card">
+        <h3>3. Agenda tu visita</h3>
+        <p>Coordinamos cita para ver y probar el auto. También podemos hacer videollamada.</p>
+      </article>
+      <article class="card">
+        <h3>4. Cierre seguro</h3>
+        <p>Pago seguro, contrato y cambio de propietario. Te ayudamos con trámites.</p>
+      </article>
+    </section>
+
+    <section style="margin-top:40px;">
+      <h2>Formas de pago</h2>
+      <ul>
+        <li>Transferencia SPEI</li>
+        <li>Depósito bancario en ventanilla</li>
+        <li>Pago mixto (anticipos y saldo a la entrega)</li>
+      </ul>
+    </section>
+
+    <section style="margin-top:32px;">
+      <h2>Preguntas frecuentes</h2>
+      <details>
+        <summary>¿Puedo apartar un auto?</summary>
+        <p>Sí, con un anticipo. Si no te convence tras la visita, lo podemos usar para otro auto del inventario.</p>
+      </details>
+      <details>
+        <summary>¿Aceptan autos a cuenta?</summary>
+        <p>Evaluamos tu auto y lo tomamos a cuenta si coincide con nuestro perfil de compra.</p>
+      </details>
+      <details>
+        <summary>¿Verificación y tenencias al día?</summary>
+        <p>Publicamos el estatus en cada ficha y te entregamos comprobantes al cierre.</p>
+      </details>
+    </section>
+
+    <section style="margin:40px 0;">
+      <a class="btn" href="/inventario">Ver inventario</a>
+      <a class="btn btn-outline" href="https://wa.me/5536343619" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+    </section>
+  </main>
+
+  <%- include('footer') %>
+</body>
+</html>
