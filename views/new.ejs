@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuevo Auto — Space Motors</title>
+  <link rel="stylesheet" href="/public/styles.css">
+</head>
+<body>
+  <%- include('header') %>
+
+  <main class="container" style="padding:40px 0;">
+    <h1>Agregar nuevo auto</h1>
+    <form action="/admin/nuevo" method="POST" enctype="multipart/form-data" style="max-width:700px;margin:auto;">
+      <label>Título:</label>
+      <input type="text" name="title" required>
+
+      <label>Precio (MXN):</label>
+      <input type="number" name="price" required>
+
+      <label>Año:</label>
+      <input type="number" name="year" required>
+
+      <label>Kilometraje:</label>
+      <input type="number" name="mileage" required>
+
+      <label>Ciudad:</label>
+      <select name="city" required>
+        <option value="Ciudad de Mexico">Ciudad de México</option>
+        <option value="Estado de Mexico">Estado de México</option>
+      </select>
+
+      <label>Descripción:</label>
+      <textarea name="description" rows="4"></textarea>
+
+      <label>VIN:</label>
+      <input type="text" name="vin">
+
+      <label>Propietarios:</label>
+      <input type="text" name="owners">
+
+      <label>Estatus Repuve:</label>
+      <select name="repuve_status">
+        <option value="Limpio">Limpio</option>
+        <option value="Con reporte">Con reporte</option>
+        <option value="No verificado">No verificado</option>
+      </select>
+
+      <label>Estatus de seguro:</label>
+      <select name="insurance_status">
+        <option value="Normal">Normal</option>
+        <option value="Perdida total">Pérdida total</option>
+        <option value="Rescatado">Rescatado</option>
+        <option value="Aseguradora">Aseguradora</option>
+      </select>
+
+      <label>Tipo de factura:</label>
+      <select name="title_type">
+        <option value="Factura original">Factura original</option>
+        <option value="Refacturado">Refacturado</option>
+      </select>
+
+      <label>Notas / Historial:</label>
+      <textarea name="notes_history" rows="3"></textarea>
+
+      <label>Fotos (puedes subir varias):</label>
+      <input type="file" name="photos" multiple accept="image/*">
+
+      <button type="submit" class="btn">Guardar auto</button>
+    </form>
+  </main>
+
+  <%- include('footer') %>
+</body>
+</html>
