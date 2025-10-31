@@ -114,7 +114,7 @@ app.get(['/como-comprar', '/howto', '/how-to'], (req, res) => {
 });
 
 // 🔒 Privacidad
-app.get(['/privacidad', '/privacy'], (req, res) => {
+app.get(['/privacidad', '/privacy', '/aviso-de-privacidad'], (req, res) => {
   res.render('privacy');
 });
 
