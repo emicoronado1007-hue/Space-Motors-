@@ -103,8 +103,9 @@ app.get('/', (req, res) => {
 app.get('/inventario', (req, res) => {
   const cars = all(`
     SELECT c.id, c.title, c.price, c.year, c.mileage, c.city, c.slug,
-    (SELECT filename FROM images WHERE car_id=c.id ORDER BY id ASC LIMIT 1) AS image
-    FROM cars ORDER BY created_at DESC
+           (SELECT filename FROM images WHERE car_id = c.id ORDER BY id ASC LIMIT 1) AS image
+    FROM cars AS c
+    ORDER BY c.created_at DESC
   `);
   res.render('inventory', { cars, formatMoney });
 });
