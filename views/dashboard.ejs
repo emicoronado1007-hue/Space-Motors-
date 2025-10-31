@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin — Space Motors</title>
+  <link rel="stylesheet" href="/public/styles.css">
+</head>
+<body>
+  <%- include('header') %>
+
+  <main class="container" style="padding:40px 0;">
+    <h1>Panel de administración</h1>
+    <p><a class="btn" href="/admin/nuevo">+ Agregar auto</a></p>
+
+    <table style="width:100%;border-collapse:collapse;margin-top:20px;">
+      <thead>
+        <tr>
+          <th align="left">ID</th>
+          <th align="left">Título</th>
+          <th>Precio</th>
+          <th>Año</th>
+          <th>Estado</th>
+          <th align="left">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (cars.length === 0) { %>
+          <tr>
+            <td colspan="6" style="padding:12px;">Aún no hay autos registrados.</td>
+          </tr>
+        <% } else { %>
+          <% cars.forEach(c => { %>
+            <tr style="border-top:1px solid #333;">
+              <td><%= c.id %></td>
+              <td><a href="/auto/<%= c.slug %>" target="_blank"><%= c.title %></a></td>
+              <td align="center"><%= formatMoney(c.price) %></td>
+              <td align="center"><%= c.year %></td>
+              <td align="center"><%= c.is_sold ? 'Vendido' : 'Disponible' %></td>
+              <td>
+                <a class="btn" href="/admin/editar/<%= c.id %>">Editar</a>
+              </td>
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </main>
+
+  <%- include('footer') %>
+</body>
+</html>
